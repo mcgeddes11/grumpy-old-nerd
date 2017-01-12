@@ -1,0 +1,11 @@
+.idea/
+**/.idea/workspace.xml
+**/.idea/tasks.xml
+**/logs
+**/tmp
+**/*.pyc
+*.pyc
+*.db
+whoosh_index/
+**/posts
+db_populate_personal.py
