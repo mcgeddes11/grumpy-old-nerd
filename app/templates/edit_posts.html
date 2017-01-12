@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block scripts %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <select id="post_select" name="post_select" size="10" onchange="selection_change(this);">
+
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <form action="" method="post" name="edit_posts">
+                {{ form.hidden_tag() }}
+                    <p>
+                    ID:<br>
+                    {{ form.id(readonly=true) }}
+                    {% for error in form.id.errors %}
+                      <span style="color: red;">[{{error}}]</span>
+                    {% endfor %}<br>
+                    <p>
+                    Title:<br>
+                    {{ form.title(rows='1',cols='100') }}
+                    {% for error in form.title.errors %}
+                      <span style="color: red;">[{{error}}]</span>
+                    {% endfor %}<br>
+
+                    Post Content:<br>
+                    {{ form.body(rows='10',cols='100') }}
+                    {% for error in form.body.errors %}
+                      <span style="color: red;">[{{error}}]</span>
+                    {% endfor %}<br>
+
+                </p>
+                <p>{{ form.save_draft(value="Save Draft (Unpublish)") }}</p>
+                <p>{{ form.save_draft(value="Save & Publish") }}</p>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var posts_global;
+    $(document).ready(function() {
+        $.ajax({
+            type : "GET",
+            url : "/get_users_posts",
+            contentType: 'application/json;charset=UTF-8',
+            success: function(result) {
+                var response = JSON.parse(result);
+                posts_global = response;
+                var el = $("#post_select");
+                var new_e;
+                if (response.length == 0){
+                    var msg = $("#msg")[0];
+                    msg.innerHTML = "No posts found";
+                } else {
+                    for (var ii=0; ii < response.length; ii++){
+                        if (response[ii].is_published){
+                            new_e = $("<option></option>").attr("value",response[ii].title).text(response[ii].title).attr("id",response[ii].id).attr("style","color:#80ccff;");
+                        } else {
+                            new_e = $("<option></option>").attr("value",response[ii].title).text(response[ii].title).attr("id",response[ii].id).attr("style","color:#ff8080;");
+                        }
+                        el.append(new_e[0]);
+                        if (ii==0){
+                            el.val(response[ii].title);
+                            selection_change(el[0]);
+                        }
+                    }
+                }
+                // Load the preview
+                f();
+            },
+            error: function(error) {
+                console.log(error);
+            }
+            });
+    });
+
+    function selection_change(el){
+        var post_data = posts_global[el.selectedIndex];
+        $("#id")[0].value = post_data.id
+        $("#flask-pagedown-body")[0].value = post_data.body
+        $("#title")[0].value = post_data.title
+        f();
+    }
+</script>
+{% endblock %}

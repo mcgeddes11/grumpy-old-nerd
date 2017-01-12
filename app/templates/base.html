@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Grumpy Old Nerd</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <link href="/static/css/clean-blog.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/static/css/custom.css" rel="stylesheet">
+
+    <style>
+        .dropdown .dropdown-menu {
+            background-color: transparent;
+        }
+        .dropdown-toggle {
+            background-color: transparent;
+        }
+    .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+        color: #555;
+        background-color: transparent;
+    }
+
+    </style>
+
+    <!-- Custom Fonts -->
+    <link href="/static/fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <!--<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Markdown -->
+    <script src="/static/js/Markdown.Converter.js"> </script>
+    <script src="/static/js/Markdown.Editor.js"> </script>
+    <script src="/static/js/Markdown.Sanitizer.js"> </script>
+    <!-- jQuery -->
+    <script src="/static/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/js/bootstrap.min.js"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="/static/js/clean_blog.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    Menu <i class="fa fa-bars"></i>
+                </button>
+                {% if g.user.is_authenticated %}
+                    <a class="navbar-brand" href="{{ url_for('index') }}" style="display:inline;">
+                        <img id="avatar" class="img-circle" src="{{ g.user.gravatar(size=50) }}" style="display:inline;">
+                        {{ g.user.first_name + " " + g.user.last_name }}
+                    </a>
+                {% endif %}
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a>
+                            <input id="search_box" type="text" placeholder="Search..." style="background-color:transparent;color:#fff;display:inline;">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"  onclick="execute_search();">
+                            <i class="fa fa-search"></i>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ url_for('index') }}">Home</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('about') }}">About</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('contact') }}">Contact</a>
+                    </li>
+                    {% if g.user.is_authenticated %}
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Manage Posts<span class="caret"></span></a>
+                                <ul class="dropdown-menu nav navbar-nav">
+                                    <li><a href="{{ url_for('new_post') }}">New Post</a></li>
+                                    <li><a href="{{ url_for('edit_posts') }}">Edit Posts</a></li>
+                                </ul>
+                        </li>
+                        {% if g.user.urole == "admin" %}
+                            <li>
+                                <a href="{{ url_for('add_user') }}">Add User</a>
+                            </li>
+                        {% endif %}
+
+                        <li>
+                            <a href="{{ url_for('logout') }}">Logout</a>
+                        </li>
+
+                    {% else %}
+                        <li>
+                            <a href="{{ url_for('login') }}">Login</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="header_img" class="intro-header" style="background-image: url('/static/img/mario-bg-2.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1 id="page_header"></h1>
+                        <hr class="small">
+                        <span id="page_subheader" class="subheading"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+{% block content %}
+{% endblock %}
+
+<!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                        <li>
+                            <a href="#">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted">Copyright &copy; Grumpy Old Nerd 2017</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Script to change main heading on page change
+        $( document ).ready(function(element) {
+            var hdr_img = $("#header_img")[0];
+            var page_hdr = $("#page_header")[0];
+            var page_subhdr = $("#page_subheader")[0];
+
+            if (this.URL.endsWith("about")){
+                page_hdr.innerHTML = "About";
+                page_subhdr.innerHTML = "Let's break the ice";
+                console.log( "about!" );
+            } else if (this.URL.endsWith("contact")){
+                page_hdr.innerHTML = "Contact";
+                page_subhdr.innerHTML = "Tell me things";
+                console.log( "contact!" );
+            } else {
+                page_hdr.innerHTML = "Grumpy Old Nerd";
+                page_subhdr.innerHTML = "Nerdy Rants and Geeky Gossip";
+            }
+
+
+        });
+
+        // Script to execute search
+        function execute_search(){
+            var query = $("#search_box")[0].value;
+            var redirect_to = "{{ url_for('search_results', page=1, _external=True) }}";
+            redirect_to = redirect_to + "&query=" + query;
+            window.location.replace(redirect_to);
+        }
+
+        // Script to listen for enter in search keystrokes
+        $('#search_box').bind("enterKey",function(e){
+            execute_search();
+        });
+        $('#search_box').keyup(function(e){
+        if(e.keyCode == 13)
+        {
+            $(this).trigger("enterKey");
+        }
+});
+
+    </script>
+
+
+</body>
+
+</html>

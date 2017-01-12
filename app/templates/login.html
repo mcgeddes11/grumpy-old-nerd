@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+<h1>Log In</h1>
+<form action="" method="post" name="login">
+    {{ form.hidden_tag() }}
+    <p>
+        Enter your email:<br>
+        {{ form.email(size=80) }}
+        {% for error in form.email.errors %}
+          <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+
+        Enter your password:<br>
+        {{ form.password(size=80) }}
+        {% for error in form.password.errors %}
+          <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+
+        <a href="{{ url_for('forgot_password') }}">Forgot password?</a>
+    </p>
+    <p><input type="submit" value="Login"></p>
+    <div id="msg">{{ msg }}</div>
+</form>
+</div>
+
+{% endblock %}

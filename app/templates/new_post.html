@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block scripts %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <form action="" method="post" name="add_new_post">
+        {{ form.hidden_tag() }}
+            <p>
+            Title:<br>
+            {{ form.title(rows='1',cols='100') }}
+            {% for error in form.title.errors %}
+              <span style="color: red;">[{{error}}]</span>
+            {% endfor %}<br>
+
+            Post Content:<br>
+            {{ form.body(rows='20',cols='100') }}
+            {% for error in form.body.errors %}
+              <span style="color: red;">[{{error}}]</span>
+            {% endfor %}<br>
+
+        </p>
+        <p>{{ form.save_draft(value="Save Draft") }}</p>
+        <p>{{ form.save_draft(value="Save & Publish") }}</p>
+    </form>
+
+
+    <div id="msg"></div>
+
+</div>
+{% endblock %}
