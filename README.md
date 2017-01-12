@@ -1,6 +1,6 @@
 # grumpy-old-nerd
 
-My attempt at building a fully featured blogging platform for my own personal use.
+My attempt at building a fully featured blogging platform for my own personal use, using Python/Flask and SQLite on the backend.
 
 Setup instructions:<br>
 1.  Clone the repository<br>
