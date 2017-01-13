@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <select id="post_select" name="post_select" size="10" onchange="selection_change(this);">
+            <select id="post_select" name="post_select" size="10" onchange="selection_change(this);update_wordcount();">
 
             </select>
         </div>
@@ -36,6 +36,7 @@
                     {% endfor %}<br>
 
                 </p>
+                <p id="wordcount">Wordcount: </p>
                 <p>{{ form.save_draft(value="Save Draft (Unpublish)") }}</p>
                 <p>{{ form.save_draft(value="Save & Publish") }}</p>
             </form>
@@ -75,6 +76,14 @@
                 }
                 // Load the preview
                 f();
+                // Add the wordcout listener to the keypress on the body edit field
+                var edit_element = document.getElementById("flask-pagedown-body")
+                // TODO: This should be bound to onkeyup along with the pagedown preview code
+                edit_element.onkeydown = function() { update_wordcount(); }
+                // Update wordcount
+                update_wordcount();
+
+
             },
             error: function(error) {
                 console.log(error);
@@ -88,6 +97,23 @@
         $("#flask-pagedown-body")[0].value = post_data.body
         $("#title")[0].value = post_data.title
         f();
+    }
+
+    function update_wordcount(){
+        var pagedown_preview = $("#flask-pagedown-body-preview")[0];
+        var count = 0;
+        var children = pagedown_preview.children;
+        var child;
+        var word_list;
+        for (var i = 0; i < children.length; i++) {
+            child = children[i];
+            if (child.children.length == 0){
+                word_list = child.textContent.split(" ");
+                count += word_list.length;
+            }
+        }
+        var count_element = $("#wordcount")[0];
+        count_element.innerHTML = "Wordcount: " + count;
     }
 </script>
 {% endblock %}
