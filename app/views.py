@@ -6,7 +6,7 @@ from app import app, db, lm
 from .forms import LoginForm, ForgotPasswordForm, PasswordResetForm, AddUserForm, PostForm, EditPostForm, ContactMeForm
 from .models import User, Post
 from emails import send_email
-import uuid, json
+import uuid, json, os
 from functools import wraps
 import locale
 locale.setlocale(locale.LC_ALL, "")
@@ -59,6 +59,10 @@ def about():
 @app.route("/file_upload")
 @login_required(role="admin")
 def file_upload():
+    # TODO: display existing files on server
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    list = sorted(os.listdir(os.path.join(basedir,"static","uploads")))
+    print list
     return render_template("file_upload.html")
 
 @app.route("/contact", methods=["GET","POST"])
@@ -124,7 +128,8 @@ def search_results():
 @app.route("/do_upload", methods=["POST"])
 @login_required(role="admin")
 def do_upload():
-    print "Stuff"
+    # TODO:  Hook this up to front end, and have it save to server
+    print "Doing stuff"
 
 
 @app.route("/get_users_posts", methods=["GET"])
