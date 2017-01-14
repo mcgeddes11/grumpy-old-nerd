@@ -107,10 +107,10 @@
         var word_list;
         for (var i = 0; i < children.length; i++) {
             child = children[i];
-            if (child.children.length == 0){
-                word_list = child.textContent.split(" ");
-                count += word_list.length;
-            }
+            word_list = child.textContent.split(" ");
+            // Remove empty strings from list
+            word_list = word_list.filter(function(n){ return n != "" });
+            count += word_list.length;
         }
         var count_element = $("#wordcount")[0];
         count_element.innerHTML = "Wordcount: " + count;
