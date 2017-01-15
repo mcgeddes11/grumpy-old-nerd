@@ -96,6 +96,8 @@ def edit_posts():
             post.is_published = False
         elif form.save_draft._value() == "Save & Publish":
             post.is_published = True
+        elif form.save_draft._value() == "Delete Post":
+            Post.query.filter_by(id=int(form.id.data)).delete();
         db.session.commit()
         return redirect(url_for('edit_posts', form=EditPostForm()))
     return render_template("edit_posts.html", form=form, msg="")
