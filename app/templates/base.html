@@ -154,6 +154,7 @@
 {% block content %}
 {% endblock %}
 
+
 <!-- Footer -->
     <footer>
         <div class="container">
@@ -169,7 +170,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a id="share_facebook" href="https://www.facebook.com/sharer/sharer.php?u=" target="_blank">
                                 <span class="fa-stack fa-lg">
                                     <i class="fa fa-circle fa-stack-2x"></i>
                                     <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
@@ -194,6 +195,12 @@
     <script>
         // Script to change main heading on page change
         $( document ).ready(function(element) {
+            // Set sharing links appropriately
+            // Facebook
+            var fb_share = $("#share_facebook")[0];
+            fb_share.href = fb_share.href + window.location.href;
+
+            // Deal with major headings overlaid image, dependent on page
             var hdr_img = $("#header_img")[0];
             var page_hdr = $("#page_header")[0];
             var page_subhdr = $("#page_subheader")[0];
