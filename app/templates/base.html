@@ -195,16 +195,16 @@
     <script>
         // Script to change main heading on page change
         $( document ).ready(function(element) {
+            var current_url = window.location.href;
             // Set sharing links appropriately
             // Facebook
             var fb_share = $("#share_facebook")[0];
-            fb_share.href = fb_share.href + window.location.href;
+            fb_share.href = fb_share.href + current_url;
 
             // Deal with major headings overlaid image, dependent on page
             var hdr_img = $("#header_img")[0];
             var page_hdr = $("#page_header")[0];
             var page_subhdr = $("#page_subheader")[0];
-
             if (this.URL.endsWith("about")){
                 page_hdr.innerHTML = "About";
                 page_subhdr.innerHTML = "Let's break the ice";
@@ -218,6 +218,10 @@
                 page_subhdr.innerHTML = "Nerdy Rants and Geeky Gossip";
             }
 
+            // TODO:  Call function based on id of post being displayed - for plots, scripts etc
+            if (current_url.includes("/post/")){
+                console.log("post loaded");
+            }
 
         });
 
