@@ -6,10 +6,13 @@ from app import app, db, lm
 from .forms import LoginForm, ForgotPasswordForm, PasswordResetForm, AddUserForm, PostForm, EditPostForm, ContactMeForm
 from .models import User, Post
 from emails import send_email
-import uuid, json, os
+import uuid, json, os, numpy
 from functools import wraps
 import locale
 locale.setlocale(locale.LC_ALL, "")
+from bs4 import BeautifulSoup
+from collections import Counter
+from sklearn.feature_extraction.text import CountVectorizer
 
 # TODO:  Make classes render properly in the preview window on new and edit post pages
 
@@ -143,6 +146,31 @@ def get_users_posts():
     response = []
     for p in posts:
         response.append({"id": p.id, "title": p.title, "body": p.body, "is_published": p.is_published})
+    return json.dumps(response)
+
+@app.route("/get_post_text", methods=["GET"])
+def get_post_text():
+    # Get all posts from db that have been published
+    posts = Post.query.filter(Post.is_published==True).order_by(Post.timestamp.desc()).all()
+    # Build a list of 'documents' to pass to the CountVectorizer (sklearn)
+    vect_text = []
+    for p in posts:
+        post_body = p.body
+        # Use BeautifulSoup to strip the hmtl
+        cleanbody = BeautifulSoup(post_body, "lxml").text
+        vect_text.append(p.title + " " + cleanbody)
+    # Count words, excluding English stop-words
+    count_vect = CountVectorizer(stop_words='english')
+    counts = count_vect.fit_transform(vect_text)
+    count_sum = numpy.sum(counts,axis=0).astype(float).tolist()[0]
+    # Simple max-count normalization to get the size factor for each word
+    count_normalized = (numpy.array(count_sum) / numpy.max(count_sum)).tolist()
+    # Build response to send to front-end
+    response = []
+    for word in count_vect.vocabulary_.keys():
+        count_val = count_normalized[count_vect.vocabulary_[word]]
+        response.append({"word": word, "count_normalized": count_val})
+
     return json.dumps(response)
 
 
