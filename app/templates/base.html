@@ -57,8 +57,15 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="/static/js/bootstrap.min.js"></script>
 
+    <!-- Post specific functions -->
+    <script src="/static/js/post_functions.js"></script>
+
     <!-- Theme JavaScript -->
     <script src="/static/js/clean_blog.js"></script>
+
+    <!-- D3 plotting libraries -->
+    <script src="/static/js/d3.min.js"></script>
+    <script src="/static/js/nv.d3.min.js"></script>
 
 </head>
 
@@ -218,8 +225,13 @@
                 page_subhdr.innerHTML = "Nerdy Rants and Geeky Gossip";
             }
 
-            // TODO:  Call function based on id of post being displayed - for plots, scripts etc
+            // Call function based on id of post being displayed - for D3 plots, scripts etc
             if (current_url.includes("/post/")){
+                // Find post id
+                var post_array = current_url.split("/")
+                var post_id = post_array[post_array.length-1];
+                // Execute function
+                post_function(post_id);
                 console.log("post loaded");
             }
 
