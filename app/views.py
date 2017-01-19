@@ -102,7 +102,7 @@ def edit_posts():
         elif form.save_draft._value() == "Delete Post":
             Post.query.filter_by(id=int(form.id.data)).delete();
         db.session.commit()
-        return redirect(url_for('edit_posts', form=EditPostForm()))
+        return redirect(url_for('edit_posts'))
     return render_template("edit_posts.html", form=form, msg="")
 
 @app.route("/new_post", methods=["POST","GET"])
