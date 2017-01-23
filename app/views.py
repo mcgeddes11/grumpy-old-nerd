@@ -11,7 +11,6 @@ from functools import wraps
 import locale
 locale.setlocale(locale.LC_ALL, "")
 from bs4 import BeautifulSoup
-from collections import Counter
 from sklearn.feature_extraction.text import CountVectorizer
 
 # TODO:  Make classes render properly in the preview window on new and edit post pages
@@ -64,9 +63,8 @@ def about():
 def file_upload():
     # TODO: display existing files on server
     basedir = os.path.abspath(os.path.dirname(__file__))
-    list = sorted(os.listdir(os.path.join(basedir,"static","uploads")))
-    print list
-    return render_template("file_upload.html")
+    flist = sorted(os.listdir(os.path.join(basedir,"static","uploads")))
+    return render_template("file_upload.html",file_list=flist)
 
 @app.route("/contact", methods=["GET","POST"])
 def contact():
@@ -100,7 +98,7 @@ def edit_posts():
         elif form.save_draft._value() == "Save & Publish":
             post.is_published = True
         elif form.save_draft._value() == "Delete Post":
-            Post.query.filter_by(id=int(form.id.data)).delete();
+            Post.query.filter_by(id=int(form.id.data)).delete()
         db.session.commit()
         return redirect(url_for('edit_posts'))
     return render_template("edit_posts.html", form=form, msg="")
