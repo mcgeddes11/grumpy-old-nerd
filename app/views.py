@@ -6,7 +6,7 @@ from app import app, db, lm
 from .forms import LoginForm, ForgotPasswordForm, PasswordResetForm, AddUserForm, PostForm, EditPostForm, ContactMeForm
 from .models import User, Post
 from emails import send_email
-import uuid, json, os, numpy
+import uuid, json, os, numpy, pandas
 from functools import wraps
 import locale
 locale.setlocale(locale.LC_ALL, "")
@@ -168,7 +168,14 @@ def get_post_text():
     for word in count_vect.vocabulary_.keys():
         count_val = count_normalized[count_vect.vocabulary_[word]]
         response.append({"word": word, "count_normalized": count_val})
-
+    w = [x["word"] for x in response]
+    c = [x["count_normalized"] for x in response]
+    df = pandas.DataFrame({"word": w, "count_normalized": c})
+    df = df.sort_values(by="count_normalized", ascending=False)
+    # Sort by descending scale factor, so we get the most common words first
+    response = []
+    for ix, r in df.iterrows():
+        response.append({"word": r["word"], "count_normalized": r["count_normalized"]})
     return json.dumps(response)
 
 
