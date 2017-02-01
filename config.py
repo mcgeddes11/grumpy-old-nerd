@@ -6,16 +6,15 @@ SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 
 WTF_CSRF_ENABLED = True
 
-# Get variables from env
-# Note that current impl. is to have a single env. var which is JSON containing all the fields we need
-vars = json.loads(os.getenv("BLOG_ENV_VARS"))
+WHOOSH_BASE = os.path.join(basedir,"whoosh_index")
+MAIL_SERVER = "smtp-mail.outlook.com"
+MAIL_PORT = 587
+MAIL_USE_TLS = True
 
-SECRET_KEY = vars["SECRET_KEY"]
-MAIL_SERVER = vars["MAIL_SERVER"]
-MAIL_PORT = vars["MAIL_PORT"]
-MAIL_USERNAME = vars["MAIL_USERNAME"]
-MAIL_PASSWORD = vars["MAIL_PASSWORD"]
-MAIL_USE_TLS = bool(vars["MAIL_USE_TLS"]) # Encoded in env. JSON as "True" or "False" strings
-MAIL_DEFAULT_SENDER = vars["MAIL_DEFAULT_SENDER"]
+# Get variables from env
+SECRET_KEY = os.getenv("BLOG_SECRET_KEY")
+MAIL_USERNAME = os.getenv("BLOG_MAIL_USERNAME")
+MAIL_PASSWORD = os.getenv("BLOG_MAIL_PASSWORD")
+MAIL_DEFAULT_SENDER = os.getenv("BLOG_MAIL_DEFAULT_SENDER")
 
 
