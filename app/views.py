@@ -92,10 +92,11 @@ def edit_posts():
         post = Post.query.filter_by(id=int(form.id.data)).first()
         post.body = form.body.data
         post.title = form.title.data
-        post.timestamp = datetime.utcnow()
         if form.save_draft._value() == "Save Draft (Unpublish)":
             post.is_published = False
         elif form.save_draft._value() == "Save & Publish":
+            if post.timestamp is None:
+                post.timestamp = datetime.utcnow()
             post.is_published = True
         elif form.save_draft._value() == "Delete Post":
             Post.query.filter_by(id=int(form.id.data)).delete()
@@ -114,6 +115,8 @@ def new_post():
         if form.save_draft._value() == "Save Draft":
             post.is_published = False
         elif form.save_draft._value() == "Save & Publish":
+            if post.timestamp is None:
+                post.timestamp = datetime.utcnow()
             post.is_published = True
         db.session.add(post)
         db.session.commit()
