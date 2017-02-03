@@ -15,4 +15,5 @@ WTForms==2.1
 beautifulsoup4==4.5.3
 sqlalchemy_migrate==0.10.0
 scikit_learn==0.18.1
+scipy==0.18.1
 SQLAlchemy==1.1.5
