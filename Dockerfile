@@ -1,6 +1,7 @@
 FROM tiangolo/uwsgi-nginx-flask:flask
 RUN apt-get -q update
 RUN apt-get -q -y install python
+RUN apt-get -q -y install vim
 RUN apt-get install -q -y python-pip
 RUN pip install --upgrade pip
 RUN apt-get -q -y install libatlas-base-dev gfortran build-essential g++
