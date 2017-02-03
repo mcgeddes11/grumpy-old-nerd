@@ -1,0 +1,17 @@
+Docker Notes:
+
+Build image from file:
+
+sudo docker build -t grumpyoldnerd .
+
+Run container:
+
+sudo docker run -d --name gon_container -p 80:80 grumpyoldnerd
+
+SSH into container:
+
+docker exec -it <containerIdOrName> bash
+
+Copy files from container to host:
+
+docker cp <containerId>:/file/path/within/container /host/path/target
