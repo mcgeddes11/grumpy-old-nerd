@@ -15,3 +15,13 @@ docker exec -it <containerIdOrName> bash
 Copy files from container to host:
 
 docker cp <containerId>:/file/path/within/container /host/path/target
+
+
+
+
+Deployment notes:
+- git clone/pull to local
+- copy database file
+- move static files to base directory
+- build docker container
+- run docker container
