@@ -68,6 +68,8 @@ def file_upload():
 
 @app.route("/contact", methods=["GET","POST"])
 def contact():
+    # TODO: debug email not working when hosted
+    # TODO: better feedback on non-email address
     form = ContactMeForm()
     if form.validate_on_submit():
         text_body = form.message.data + "\n\rFrom: " + form.name.data

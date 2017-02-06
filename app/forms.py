@@ -16,7 +16,7 @@ class PasswordResetForm(Form):
     confirm_password = PasswordField("confirm_password")
 
 class AddUserForm(Form):
-    email = StringField('email', validators=[DataRequired(), Email()])
+    email = StringField('email', validators=[DataRequired(), Email(message="Invalid email")])
     password = PasswordField('password', validators=[DataRequired()])
     first_name = StringField('first_name', validators=[DataRequired()])
     last_name = StringField('last_name', validators=[DataRequired()])
@@ -37,6 +37,6 @@ class EditPostForm(Form):
 
 class ContactMeForm(Form):
     name = StringField('name', validators=[DataRequired()])
-    email = StringField('email', validators=[DataRequired(), Email()])
+    email = StringField('email', validators=[DataRequired(), Email(message="Invalid email")])
     message = TextAreaField("message", validators=[DataRequired()])
     send = SubmitField("send")

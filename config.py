@@ -10,6 +10,8 @@ WHOOSH_BASE = os.path.join(basedir,"whoosh_index")
 MAIL_SERVER = "smtp-mail.outlook.com"
 MAIL_PORT = 587
 MAIL_USE_TLS = True
+MAIL_SUPPRESS_SEND = False
+MAIL_DEBUG = True
 
 # Get variables from env
 SECRET_KEY = os.getenv("BLOG_SECRET_KEY")
