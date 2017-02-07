@@ -6,7 +6,7 @@ from app import app, db, lm
 from .forms import LoginForm, ForgotPasswordForm, PasswordResetForm, AddUserForm, PostForm, EditPostForm, ContactMeForm
 from .models import User, Post
 from emails import send_email
-import uuid, json, os, numpy, pandas
+import uuid, json, os, numpy, pandas, logging, traceback
 from functools import wraps
 import locale
 locale.setlocale(locale.LC_ALL, "")
@@ -14,6 +14,7 @@ from bs4 import BeautifulSoup
 from sklearn.feature_extraction.text import CountVectorizer
 
 # TODO:  Make classes render properly in the preview window on new and edit post pages
+logger = logging.getLogger()
 
 def login_required(role="ANY"):
     def wrapper(fn):
@@ -74,7 +75,10 @@ def contact():
     if form.validate_on_submit():
         text_body = form.message.data + "\n\rFrom: " + form.name.data
         template_data = {"content": form.message.data, "name": form.name.data, "email": form.email.data}
-        send_email("[GRUMPYOLDNERD message from " + form.name.data + "]", form.email.data, ["joncocks@hotmail.com"], text_body, render_template("email_contact.html", message=template_data))
+        try:
+            send_email("[GRUMPYOLDNERD message from " + form.name.data + "]", form.email.data, ["joncocks@hotmail.com"], text_body, render_template("email_contact.html", message=template_data))
+        except:
+            logger.error(traceback.format_exc())
         form.name.data = ""
         form.email.data = ""
         form.message.data = ""
