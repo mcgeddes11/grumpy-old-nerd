@@ -10,7 +10,7 @@ sudo docker run -d --name gon_container -p 80:80 grumpyoldnerd
 
 SSH into container:
 
-docker exec -it <containerIdOrName> bash
+sudo docker exec -it <containerIdOrName> bash
 
 Copy files from container to host:
 

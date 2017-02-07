@@ -3,7 +3,8 @@ from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_pagedown import PageDown
-import platform
+import platform, sys
+from utils import LoggerWriter
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -26,5 +27,7 @@ if not app.debug:
     file_handler.setLevel(logging.INFO)
     app.logger.addHandler(file_handler)
     app.logger.info('grumpy_old_nerd startup')
+    sys.stdout = LoggerWriter(app.logger.debug)
+    sys.stderr = LoggerWriter(app.logger.warning)
 
 from app import views, models
