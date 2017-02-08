@@ -22,6 +22,7 @@ docker cp <containerId>:/file/path/within/container /host/path/target
 Deployment notes:
 - git clone/pull to local
 - copy database file
-- move static files to base directory
 - build docker container
 - run docker container
+- change reference to static files in etc/nginx/conf.d/nginx.conf to app/app/static
+- restart container
