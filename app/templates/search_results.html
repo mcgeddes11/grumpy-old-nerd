@@ -18,7 +18,7 @@
                             {{ p.title }}
                         </h2>
                     </a>
-                    <p class="post-meta">Posted by <a href="#">{{ p.author.first_name + " " + p.author.last_name }}</a> on {{ p.timestamp }}</p>
+                    <p class="post-meta">Posted by <a href="{{ url_for('about') }}">{{ p.author.first_name + " " + p.author.last_name }}</a> on {{ momentjs(p.timestamp).fromNow() }}</p>
                 </div>
                 <hr>
             {% endfor %}
