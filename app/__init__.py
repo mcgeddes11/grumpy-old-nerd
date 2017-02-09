@@ -6,9 +6,12 @@ from flask_pagedown import PageDown
 from flask_wtf import csrf
 import platform, sys
 from utils import LoggerWriter
+from momentjs import momentjs
+
 
 app = Flask(__name__)
 app.config.from_object('config')
+app.jinja_env.globals["momentjs"] = momentjs
 csrf.CsrfProtect(app)
 mail = Mail(app)
 db = SQLAlchemy(app)
