@@ -27,7 +27,5 @@ app.logger.setLevel(logging.INFO)
 file_handler.setLevel(logging.INFO)
 app.logger.addHandler(file_handler)
 app.logger.info('grumpy_old_nerd startup')
-sys.stdout = LoggerWriter(app.logger.info)
-sys.stderr = LoggerWriter(app.logger.warning)
 
 from app import views, models

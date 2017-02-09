@@ -26,3 +26,6 @@ Deployment notes:
 - run docker container
 - change reference to static files in etc/nginx/conf.d/nginx.conf to app/app/static
 - restart container
+
+Notes:
+- Need a process to backup files (app database, static/uploads)
