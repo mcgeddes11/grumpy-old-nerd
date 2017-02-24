@@ -199,7 +199,7 @@ def login():
             msg = "User not found"
             return render_template('login.html', form=form, msg=msg)
         elif user.verify_password(form.password.data):
-            login_user(user)
+            login_user(user, form.remember_me.data)
             next = url_for('index')
         else:
             msg = "Login unsuccessful - incorrect password"

@@ -18,6 +18,11 @@
           <span style="color: red;">[{{error}}]</span>
         {% endfor %}<br>
 
+        {{ form.remember_me() }}  Remember me
+        {% for error in form.remember_me.errors %}
+          <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+
         <a href="{{ url_for('forgot_password') }}">Forgot password?</a>
     </p>
     <p><input type="submit" value="Login"></p>
